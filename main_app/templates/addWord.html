@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body%}
+    <div style="margin-left: 30%; margin-right: 30%; margin-top: 5em">
+        <form method="POST" action="/add_word/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Add new words(Space separated)</label>
+                <input name="new_sentence" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="New words(Space separated)" value="{{new_sentence}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <div class="float-md-right">
+            {% if result %}
+                <div class="p-3 mb-2 bg-success text-white">{{new_sentence}} added successfully</div>
+                {% for answer in answer_list %}
+                    {% if answer.correct %}
+                        <div class="p-3 mb-2 bg-success text-white">{{answer.word}} added</div>
+                    {% else %}
+                        <div class="p-3 mb-2 bg-danger text-white">{{answer.word}} -> exists already</div >
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="p-3 mb-2 bg-dark text-white">No new words are saved yet!</div >
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

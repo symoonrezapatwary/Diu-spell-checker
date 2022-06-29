@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<div style="margin-left: 30%; margin-right: 30%; margin-top: 5em">
+    <form method="POST" action="/">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Query Sentence</label>
+            <input name="query_sentence" type="text" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp" placeholder="Query Sentence" value="{{query_sentence}}">
+        </div>
+        <button type="submit" class="btn btn-primary">Check</button>
+    </form>
+    <div class="float-md-right">
+        {% if result %}
+            {% for answer in answer_list %}
+                {% if answer.correct %}
+                <div class="p-3 mb-2 bg-success text-white">{{answer.query_word}}</div>
+                {% else %}
+                <div class="p-3 mb-2 bg-danger text-white">{{answer.query_word}} -> {{answer.correct_word}}</div>
+                {% endif %}
+                {% endfor %}
+            {% else %}
+            <div class="p-3 mb-2 bg-dark text-white">No query is made yet!</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
